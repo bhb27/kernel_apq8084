@@ -47,4 +47,8 @@ config ENABLE_LINUX_REG
 	bool "Enable linux regulatory feature"
 	default y
 
+config WLAN_FEATURE_RX_WAKELOCK
+	bool "Enable RX wake lock feature"
+	default n
+
 endif # QCA_CLD_WLAN
