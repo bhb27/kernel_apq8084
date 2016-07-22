@@ -1699,6 +1699,11 @@ eHalStatus csrScanHandleSearchForSSID(tpAniSirGlobal pMac, tSmeCmd *pCommand)
     do
     {
 #ifdef WLAN_FEATURE_ROAM_SCAN_OFFLOAD
+        /* Make sure we have no overflow */
+        if (sessionId >= CSR_ROAM_SESSION_MAX) {
+            status = eHAL_STATUS_FAILURE;
+            break;
+        }
         //if this scan is for LFR
         if(pMac->roam.neighborRoamInfo.uOsRequestedHandoff)
         {
@@ -1787,6 +1792,10 @@ eHalStatus csrScanHandleSearchForSSIDFailure(tpAniSirGlobal pMac, tSmeCmd *pComm
     tCsrRoamProfile *pProfile = pCommand->u.scanCmd.pToRoamProfile;
     tCsrRoamSession *pSession = CSR_GET_SESSION( pMac, sessionId );
 #ifdef WLAN_FEATURE_ROAM_SCAN_OFFLOAD
+    /* Make sure we have no overflow */
+    if (sessionId >= CSR_ROAM_SESSION_MAX) {
+        return eHAL_STATUS_FAILURE;
+    }
     //if this scan is for LFR
     if(pMac->roam.neighborRoamInfo.uOsRequestedHandoff)
     {
