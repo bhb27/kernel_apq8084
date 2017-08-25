@@ -2603,7 +2603,6 @@ static int packet_bind_spkt(struct socket *sock, struct sockaddr *uaddr,
 {
 	struct sock *sk = sock->sk;
 	char name[sizeof(uaddr->sa_data) + 1];
-	char name[15];
 
 	/*
 	 *	Check legality
