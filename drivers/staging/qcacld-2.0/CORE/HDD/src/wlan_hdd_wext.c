@@ -6913,7 +6913,7 @@ static int iw_get_char_setnone(struct net_device *dev, struct iw_request_info *i
                 }
 
                 tlState = smeGetTLSTAState(hHal, pHddStaCtx->conn_info.staId[0]);
-
+#ifdef BUILD_DEBUG_VERSION
                 buf = scnprintf(extra + len, WE_MAX_STR_LEN - len,
                         "\n HDD Conn State - %s "
                         "\n \n SME State:"
@@ -6933,10 +6933,12 @@ static int iw_get_char_setnone(struct net_device *dev, struct iw_request_info *i
                         macTraceGetTLState(tlState)
                         );
                 len += buf;
+#endif
                 adapter_num++;
             }
 
             if (pMac) {
+#ifdef BUILD_DEBUG_VERSION
                 /* Printing Lim State starting with global lim states */
                 buf = scnprintf(extra + len, WE_MAX_STR_LEN - len,
                         "\n \n LIM STATES:-"
@@ -6947,12 +6949,13 @@ static int iw_get_char_setnone(struct net_device *dev, struct iw_request_info *i
                         macTraceGetLimMlmState(pMac->lim.gLimMlmState)
                         );
                 len += buf;
-
+#endif
                 /*printing the PE Sme and Mlm states for valid lim sessions*/
                 while ( check < 3 && count < 255)
                 {
                     if ( pMac->lim.gpSession[count].valid )
                     {
+#ifdef BUILD_DEBUG_VERSION
                         buf = scnprintf(extra + len, WE_MAX_STR_LEN - len,
                             "\n Lim Valid Session %d:-"
                             "\n PE Sme State - %s "
@@ -6964,6 +6967,7 @@ static int iw_get_char_setnone(struct net_device *dev, struct iw_request_info *i
                             );
 
                         len += buf;
+#endif
                         check++;
                     }
                     count++;

@@ -794,7 +794,9 @@ out:
 
 static void ramdump_work_handler(struct work_struct *ramdump)
 {
+#ifdef BUILD_DEBUG_VERSION
 	int ret;
+#endif
 	u_int32_t host_interest_address;
 	u_int32_t dram_dump_values[4];
 

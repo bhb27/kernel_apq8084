@@ -52,12 +52,12 @@
 #include <a_debug.h>
 #define FWLOG_DEBUG   ATH_DEBUG_MAKE_MODULE_MASK(0)
 
-#if defined(DEBUG)
 
 bool appstarted = FALSE;
 bool kd_nl_init = FALSE;
 int cnss_diag_pid = 0;
 
+#if defined(DEBUG)
 static ATH_DEBUG_MASK_DESCRIPTION g_fwlogDebugDescription[] = {
     {FWLOG_DEBUG,"fwlog"},
 };
