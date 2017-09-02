@@ -1,0 +1,15 @@
+# Disable mobile data by default (only affect first boot once user enable it in settings this is not used anymore)
+ro.com.android.mobiledata=false
+
+# Storage
+ro.sys.sdcardfs=false
+
+# compress_offload
+audio.offload.buffer.size.kb=32
+audio.offload.gapless.enabled=true
+audio.offload.video=true
+audio.offload.pcm.16bit.enable=true
+audio.offload.pcm.24bit.enable=true
+
+#I included on the rom a power_profile over_under_clock, it will falls back to default if power_profile_ou.xml is missing
+ro.power_profile.override=power_profile_ou
