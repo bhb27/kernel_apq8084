@@ -29,6 +29,8 @@
 #include <linux/time.h>
 #include <linux/fb.h>
 
+#include "../../kernel/sched/sched.h"
+
 struct cpu_sync {
 	struct delayed_work boost_rem;
 	int cpu;
