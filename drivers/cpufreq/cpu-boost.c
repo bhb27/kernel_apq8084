@@ -289,7 +289,7 @@ static void run_boost_migration(unsigned int cpu)
 		cpufreq_update_policy(src_cpu);
 	if (cpu_online(dest_cpu)) {
 		cpufreq_update_policy(dest_cpu);
-		queue_delayed_work_on(dest_cpu, cpu_boost_wq,
+		queue_delayed_work_on(dest_cpu, system_power_efficient_wq,
 			&s->boost_rem, msecs_to_jiffies(boost_ms));
 	} else {
 		s->boost_min = 0;
@@ -493,7 +493,7 @@ static int cpuboost_cpu_callback(struct notifier_block *cpu_nb,
 		     work_pending(&input_boost_work))
 			break;
 		pr_debug("Hotplug boost for CPU%d\n", (int)hcpu);
-		queue_work(cpu_boost_wq, &input_boost_work);
+		queue_work(system_power_efficient_wq, &input_boost_work);
 		last_input_time = ktime_to_us(ktime_get());
 		break;
 	default:
@@ -520,7 +520,7 @@ static int fb_notifier_callback(struct notifier_block *self,
 				     work_pending(&input_boost_work))
 					break;
 				pr_debug("Wakeup boost for display on event.\n");
-				queue_work(cpu_boost_wq, &input_boost_work);
+				queue_work(system_power_efficient_wq, &input_boost_work);
 				last_input_time = ktime_to_us(ktime_get());
 				break;
 			case FB_BLANK_POWERDOWN:
