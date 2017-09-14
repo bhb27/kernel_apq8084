@@ -173,7 +173,7 @@ static int boost_adjust_notify(struct notifier_block *nb, unsigned long val,
 	min = min(min, policy->max);
 
 	if (policy->cur >= ib_min)
-		break;
+		return NOTIFY_OK;
 
 	pr_debug("CPU%u policy min before boost: %u kHz\n",
 		 cpu, policy->min);
@@ -391,7 +391,7 @@ static void cpuboost_input_event(struct input_handle *handle,
 	u64 now;
 	unsigned int min_interval;
 
-	if (!input_boost_enabled || work_pending(&input_boost_work))
+	if (!input_boost_enabled || queuing_blocked(&cpu_boost_worker, &input_boost_work))
 		return;
 
 	now = ktime_to_us(ktime_get());
@@ -399,9 +399,6 @@ static void cpuboost_input_event(struct input_handle *handle,
 
 	if (now - last_input_time < min_interval * USEC_PER_MSEC)
 		return;
-
-	if (queuing_blocked(&cpu_boost_worker, &input_boost_work))
-  		return;
 
 	pr_debug("Input boost for input event.\n");
 	queue_kthread_work(&cpu_boost_worker, &input_boost_work);
@@ -492,10 +489,10 @@ static int cpuboost_cpu_callback(struct notifier_block *cpu_nb,
 		break;
 	case CPU_ONLINE:
 		if (!hotplug_boost || !input_boost_enabled ||
-		     work_pending(&input_boost_work))
+		     queuing_blocked(&cpu_boost_worker, &input_boost_work))
 			break;
 		pr_debug("Hotplug boost for CPU%d\n", (int)hcpu);
-		queue_work(system_power_efficient_wq, &input_boost_work);
+		queue_kthread_work(&cpu_boost_worker, &input_boost_work);
 		last_input_time = ktime_to_us(ktime_get());
 		break;
 	default:
@@ -519,10 +516,10 @@ static int fb_notifier_callback(struct notifier_block *self,
 		switch (*blank) {
 			case FB_BLANK_UNBLANK:
 				if (!wakeup_boost || !input_boost_enabled ||
-				     work_pending(&input_boost_work))
+				     queuing_blocked(&cpu_boost_worker, &input_boost_work))
 					break;
 				pr_debug("Wakeup boost for display on event.\n");
-				queue_work(system_power_efficient_wq, &input_boost_work);
+				queue_kthread_work(&cpu_boost_worker, &input_boost_work);
 				last_input_time = ktime_to_us(ktime_get());
 				break;
 			case FB_BLANK_POWERDOWN:
