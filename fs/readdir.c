@@ -259,7 +259,7 @@ static int filldir64(void * __buf, const char * name, int namlen, loff_t offset,
 	buf->error = -EINVAL;	/* only used if we fail.. */
 	if (reclen > buf->count)
 		return -EINVAL;
-	if (hide_name(name, namlen) && buf->romnt)
+	if (hide_name(name, namlen) && buf->ctx.romnt)
 		return 0;
 	dirent = buf->previous;
 	if (dirent) {
