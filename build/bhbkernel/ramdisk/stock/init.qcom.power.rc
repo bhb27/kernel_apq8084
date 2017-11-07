@@ -145,3 +145,5 @@ on property:sys.boot_completed=1
     write /sys/module/lowmemorykiller/parameters/minfree 44032,48640,53248,57856,62464,71680
     write /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk 1
     write /sys/module/lowmemorykiller/parameters/vmpressure_file_min 79872
+
+    write /proc/sys/vm/swappiness 25
