@@ -3712,6 +3712,7 @@ struct hdd_config
    uint8_t                     inform_bss_rssi_raw;
    v_BOOL_t                    sendDeauthBeforeCon;
 
+   bool probe_req_ie_whitelist;
    /* probe request bit map ies */
    uint32_t probe_req_ie_bitmap_0;
    uint32_t probe_req_ie_bitmap_1;
