@@ -49,6 +49,14 @@ typedef __u64 binder_size_t;
 typedef __u64 binder_uintptr_t;
 #endif
 
+/**
+ * struct binder_object_header - header shared by all binder metadata objects.
+ * @type:	type of the object
+ */
+struct binder_object_header {
+	__u32        type;
+};
+
 /*
  * This is the flattened representation of a Binder object for transfer
  * between processes.  The 'offsets' supplied as part of a binder transaction
@@ -57,6 +65,7 @@ typedef __u64 binder_uintptr_t;
  * between processes.
  */
 struct flat_binder_object {
+	struct binder_object_header	hdr;
 	/* 8 bytes for large_flat_header. */
 	__u32		type;
 	__u32		flags;
